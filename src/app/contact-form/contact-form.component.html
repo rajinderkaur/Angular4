@@ -1,0 +1,82 @@
+<form #f="ngForm" (ngSubmit)="submit(f)">
+<!--use ngModelGroup if u want nested values to send to server or to check the whole form is valid or not-->
+  <!--we use FormControl for one input field and formgroup for whole form-->
+  <div ngModelGroup="contact" #contact="ngModelGroup">
+    <div *ngIf="!contact.valid"></div>
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+
+      <!--you define template variable by putting #-->
+      <input
+        required
+        minlength="3"
+        maxlength="10"
+        pattern="banana"
+        ngModel
+        name="firstName"
+        id="firstName"
+        #tempVariable="ngModel"
+        type="text"
+        class="form-control"
+
+      >
+      <!--use this box to display errors. valid is a property of the form to check if its valid or not-- use touched property to check if user touched the input field but left without entering the right value -->
+      <!--to get the error properties, u can open error object in the firebug and find the values
+      added css class in the style .css to make the box border red
+      -->
+      <div
+        class="alert alert-danger"
+        *ngIf="tempVariable.touched && !tempVariable.valid">
+        <div *ngIf="tempVariable.errors.required">
+          First Name is not valid
+        </div>
+        <div *ngIf="tempVariable.errors.minlength">
+          First Name minimum length is {{tempVariable.errors.minlength.requiredLength}}
+        </div>
+        <div *ngIf="tempVariable.errors.pattern">
+          First Name does not match the pattern
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="comment">Comment</label>
+    <textarea ngModel name="comment" id="comment" cols="30" rows="10" class="form-control"></textarea>
+  </div>
+  <div class="checkbox"  >
+    <label>
+      <input type="checkbox" ngModel name="isSubscribed">Subscribe to mailing list
+    </label>
+  </div>
+
+  <!--radio button-->
+  <div class="radio">
+    <label>
+      <input  ngModel type="radio" name="contactMethod" value="1"> Email
+    </label>
+  </div>
+  <div class="radio">
+    <label>
+      <input ngModel type="radio" name="contactMethod" value="2"> Call
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label for="contactMethod">Contact Method</label>
+    <select multiple ngModel  name="contactMethod" id="contactMethod" class="form-control">
+      <option *ngFor="let c of contactMethods" [value]="c.id">{{c.name}}</option>
+    </select>
+  </div>
+
+  <!--use to display the values of the form-->
+<p>
+  {{f.value | json}}
+</p>
+  <!--disbale submit button untill form is not valid-->
+  <button class="btn btn-primary" [disabled]="!f.valid">
+    Submit
+  </button>
+</form>

@@ -1,0 +1,69 @@
+<div class="panel panel-default" xmlns:trackBy="http://www.w3.org/1999/xhtml"
+     xmlns:trackBy="http://www.w3.org/1999/xhtml">
+  <div class="panel-heading">
+    <ng-content select=".heading"></ng-content>
+  </div>
+  <div class="panel-body">
+    <ng-content select=".body"></ng-content>
+  </div>
+</div>
+<!--this is one way of doing if, but look down we can use ng-template to show 2nd div-->
+
+<div *ngIf="panels.length>0">
+  List of Courses
+</div>
+<div *ngIf="panels.length==0">
+  No Courses Yet
+</div>
+
+
+<!--much easier for if else- you can use two ng-template-->
+<div *ngIf="panels.length>0; then courseList else noCourses"></div>
+<ng-template #courseList>
+  <h1>List of Courses</h1>
+</ng-template>
+<ng-template #noCourses>
+  No Courses Yet
+</ng-template>
+
+
+<!--hidden attribute to show and hide, use for few elements-->
+<div [hidden] ="panels.length==0">
+  List of Courses
+</div>
+<div [hidden]="panels.length>0">
+  No Courses Yet
+</div>
+
+
+<!--ngswitch case-->
+<ul class="nav nav-pills">
+  <li [class.active]="viewMode=='map'"><a (click)="viewMode='map'">Map View</a></li>
+  <li [class.active]="viewMode=='list'"><a (click)="viewMode='list'">List View</a></li>
+</ul>
+<div [ngSwitch]="viewMode" >
+  <div *ngSwitchCase="'map'">Map View content</div>
+ <div *ngSwitchCase="'list'">List View Content</div>
+  <div *ngSwitchDefault>Otherwise</div>
+</div>
+
+<!--showing index and even rows , onclicks events, change value on onclick      -->
+<ul>
+  <li *ngFor="let emp of employees; index as i; even as isEven">
+    {{i}} - {{emp.name}} <button (click)="onRemove(emp)">Remove</button>
+    <button (click)="onChange(emp)">change</button>
+    <span *ngIf="isEven"> EVEN</span>
+
+  </li>
+</ul>
+
+<!--change detection-->
+<button (click)="onAdd()">Add</button>
+
+
+<!--just checking if assignee exist then only show the name-->
+<span >{{task.assignee?.name}}</span>
+<span>{{task.title}}</span>
+
+
+<!--Custom directives-->

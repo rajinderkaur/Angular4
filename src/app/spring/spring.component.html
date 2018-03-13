@@ -1,0 +1,37 @@
+<p>
+  {{'Title234: '+getTitle()}}
+</p>
+<img [src]= "imageUrl" width="50" height="50" />
+<ul>
+  <li *ngFor=" let w of weathers">
+    {{w}}
+  </li>
+</ul>
+<table>
+  <tr>
+    <!--user attr. to let dom knows that it is a html property-->
+    <td [attr.colspan]="colSpan"></td>
+  </tr>
+</table>
+<button [style.backgroundColor]="isActive ? 'blue' : 'white' ">Save</button>
+<button (click)="onSave($event)">click me</button>
+<!--submit on ENTER key press-->
+<!--pass input text value to component-->
+<input #email (keyup.enter)="onkeyup(email.value)">
+<!--two way binding-->
+<input [(ngModel)]="address" (keyup.enter)="onkeyup()">
+<h2>Applying Pipes</h2>
+{{course.title | uppercase}}<br>
+{{course.rating | number:'1.2-2'}}<br>
+{{course.students | number}}<br>
+{{course.price | currency: 'AUD'}}<br>
+{{course.releaseDate | date: 'shortDate'}}
+
+
+<span
+  class="glyphicon"
+  [class.glyphicon-thumbs-up]="isLiked"
+  [class.glyphicon-thumbs-down]="!isLiked"
+  (click)="onClick()"
+></span>
+
